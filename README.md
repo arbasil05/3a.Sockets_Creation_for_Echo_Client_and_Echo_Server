@@ -12,45 +12,33 @@ Sockets Links.
 ### SERVER:
 ```
 import socket
+s=socket.socket()
+s.bind(('localhost',8000))
+s.listen(5)
+c,addr=s.accept()
+while True:
+ ClientMessage=c.recv(1024).decode()
+ c.send(ClientMessage.encode())
 
-HOST = '127.0.0.1'  
-PORT = 65432       
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            if not data:
-                break
-            conn.sendall(data)
 
 ```
 ### CLIENT:
 ```
 import socket
-
-HOST = '127.0.0.1'  
-PORT = 65432        
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
-    while True:
-        message = input("Enter message to send to server: ")
-        s.sendall(message.encode())
-        data = s.recv(1024)
-        print('Received', repr(data.decode()))
-
+s=socket.socket()
+s.connect(('localhost',8000))
+while True:
+ msg=input("Client > ")
+ s.send(msg.encode())
+ print("Server > ",s.recv(1024).decode())
 ```
-
 ## OUTPUT:
 ### SERVER : 
-![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/21e8cf8f-c448-445a-a520-02462699f482)
+![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/02fe606f-6070-4724-a4c3-ea72949c5dfd)
+
 ### CLIENT : 
-![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/4f0dca11-0077-463c-80d3-eaf1922c1ac4)
+![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/177a7001-a67d-4393-a5a8-b4e2bd27c1cb)
+
 
 
 ## RESULT
